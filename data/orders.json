@@ -1,0 +1,42 @@
+[
+  {
+    "id": 35,
+    "user_id": null,
+    "order_code": "DYA-20261114-6099",
+    "customer": {
+      "note": "Đơn test qua AI Chatbot",
+      "email": "thao.nguyen@test.vn",
+      "phone": "0901234567",
+      "address": "123 Hai Bà Trưng, Phường Bến Nghé, Quận 1, TP.HCM",
+      "fullName": "Nguyễn Thị Thảo",
+      "subtotal": 85000,
+      "couponCode": null,
+      "shippingFee": 30000,
+      "discountAmount": 0
+    },
+    "items": [
+      {
+        "id": "DY-1D-CKR-SGR_-2.50",
+        "product": {
+          "id": "DY-1D-CKR-SGR",
+          "sku": "DY-1D-CKR-SGR",
+          "slug": "cat-titude-kristin-sapphire-1-day-gray",
+          "color": "Sapphire Gray",
+          "price": 85000,
+          "category": "Lens 1 ngày",
+          "image_url": "https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/cat-titude/sapphire-gray-001.jpg",
+          "product_name": "Cat-titude Kristin - Sapphire Gray"
+        },
+        "quantity": 1,
+        "productId": "DY-1D-CKR-SGR",
+        "unitPrice": 85000,
+        "prescriptionPower": "-2.50"
+      }
+    ],
+    "total_amount": 115000,
+    "payment_method": "cod",
+    "status": "cancelled",
+    "created_at": "2026-11-14T18:38:32.589+00:00",
+    "updated_at": "2026-11-14T20:12:33.374Z"
+  }
+]

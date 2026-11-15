@@ -231,6 +231,21 @@ export const orderService = {
 
       if (!error && data) {
         insertedData = data;
+        // Trừ tồn kho phân loại lens trên Supabase theo thời gian thực
+        if (Array.isArray(orderPayload.items)) {
+          for (const item of orderPayload.items) {
+            const prodId = item.productId || item.product?.id || item.id;
+            const power = item.prescriptionPower || '0.00';
+            const qty = item.quantity || 1;
+            if (prodId) {
+              supabase.rpc('decrement_variant_stock', {
+                p_product_id: prodId,
+                p_power: power,
+                p_qty: qty,
+              }).then(() => {}).catch(() => {});
+            }
+          }
+        }
       } else if (error) {
         console.error('Supabase direct insert order error:', error);
       }

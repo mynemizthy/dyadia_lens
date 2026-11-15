@@ -6,10 +6,17 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 // Read public credentials safely for Supabase in browser or fallback to client key
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://redobljqvbrouykjrcdo.supabase.co';
-const rawKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'sb_publishable_NN7gS5ZCug4fFGSUTHNMbw_D1F94eeT';
+const envUrl = import.meta.env.VITE_SUPABASE_URL;
+const envKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-export const supabase: SupabaseClient = createClient(supabaseUrl, rawKey, {
+// Safely validate: If the environment variable is empty or is a placeholder like 'your-project-id', ALWAYS use the real Dyadia Supabase project!
+const isPlaceholderUrl = !envUrl || envUrl.includes('your-project-id') || !envUrl.startsWith('https://');
+const isPlaceholderKey = !envKey || envKey.includes('your_supabase') || envKey.includes('placeholder') || envKey.startsWith('sb_secret_');
+
+export const SUPABASE_URL = isPlaceholderUrl ? 'https://redobljqvbrouykjrcdo.supabase.co' : envUrl;
+export const SUPABASE_ANON_KEY = isPlaceholderKey ? 'sb_publishable_NN7gS5ZCug4fFGSUTHNMbw_D1F94eeT' : envKey;
+
+export const supabase: SupabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: {
     persistSession: true,
     autoRefreshToken: true,
@@ -26,7 +33,7 @@ export interface SupabaseServerStatus {
 }
 
 export function isSupabaseConfigured(): boolean {
-  return Boolean(supabaseUrl && rawKey);
+  return Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
 }
 
 export async function checkSupabaseServerStatus(): Promise<SupabaseServerStatus> {
@@ -38,7 +45,7 @@ export async function checkSupabaseServerStatus(): Promise<SupabaseServerStatus>
         supabaseConfigured: true,
         error: null,
         productCount: count || 35,
-        url: supabaseUrl,
+        url: SUPABASE_URL,
       };
     }
     return {
@@ -46,7 +53,7 @@ export async function checkSupabaseServerStatus(): Promise<SupabaseServerStatus>
       supabaseConfigured: true,
       error: error.message,
       productCount: 0,
-      url: supabaseUrl,
+      url: SUPABASE_URL,
     };
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : 'Không thể kết nối tới Supabase';

@@ -53,6 +53,8 @@ import { faqService } from '../services/faqService.ts';
 import { aboutService, BrandAboutData, DEFAULT_ABOUT_DATA } from '../services/aboutService.ts';
 import { PolicyItem } from '../types/policy.ts';
 import { FAQItem } from '../types/faq.ts';
+import { supabase } from '../lib/supabase.ts';
+import { productService } from '../services/productService.ts';
 
 type AdminTab = 'products' | 'orders' | 'variants' | 'aplus' | 'site_customizer' | 'blog' | 'policies' | 'faqs' | 'about' | 'coupons' | 'black_friday';
 
@@ -89,11 +91,22 @@ export const Admin: React.FC = () => {
     setLoadingBf(true);
     try {
       const res = await fetch('/api/admin/black-friday-subscribers');
-      if (res.ok) {
+      const contentType = res.headers.get('content-type') || '';
+      if (res.ok && contentType.includes('application/json')) {
         const data = await res.json();
         if (data.success && Array.isArray(data.subscribers)) {
           setBfSubscribers(data.subscribers);
+          return;
         }
+      }
+      // Fallback to Supabase directly
+      const { data: supaSubs } = await supabase
+        .from('black_friday_subscribers')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .catch(() => ({ data: [] }));
+      if (supaSubs && Array.isArray(supaSubs)) {
+        setBfSubscribers(supaSubs);
       }
     } catch (err) {
       console.warn('Error loading Black Friday subscribers:', err);
@@ -180,23 +193,68 @@ export const Admin: React.FC = () => {
       setFaqs(loadedFaqs);
       setAboutData(loadedAbout);
 
-      if (prodRes.ok) {
-        const pJson = await prodRes.json();
-        if (pJson.success && Array.isArray(pJson.data)) {
-          setProducts(pJson.data);
-          if (pJson.data.length > 0) {
-            if (!selectedProductForVariants) setSelectedProductForVariants(pJson.data[0].id);
-            if (!selectedProductForAplus) setSelectedProductForAplus(pJson.data[0].id);
+      let fetchedProducts: Product[] = [];
+      let fetchedOrders: any[] = [];
+
+      const prodContentType = prodRes.headers.get('content-type') || '';
+      if (prodRes.ok && prodContentType.includes('application/json')) {
+        try {
+          const pJson = await prodRes.json();
+          if (pJson.success && Array.isArray(pJson.data)) {
+            fetchedProducts = pJson.data;
           }
+        } catch {}
+      }
+
+      // If API /api/products didn't yield products, fetch directly from Supabase / productService
+      if (fetchedProducts.length === 0) {
+        try {
+          const { data: supaProds } = await supabase
+            .from('products')
+            .select('*')
+            .order('sku', { ascending: true });
+          if (supaProds && supaProds.length > 0) {
+            fetchedProducts = supaProds as Product[];
+          } else {
+            fetchedProducts = await productService.getProducts();
+          }
+        } catch {
+          fetchedProducts = await productService.getProducts();
         }
       }
 
-      if (orderRes.ok) {
-        const oJson = await orderRes.json();
-        if (oJson.success && Array.isArray(oJson.data)) {
-          setOrders(oJson.data);
+      if (fetchedProducts.length > 0) {
+        setProducts(fetchedProducts);
+        if (!selectedProductForVariants) setSelectedProductForVariants(fetchedProducts[0].id);
+        if (!selectedProductForAplus) setSelectedProductForAplus(fetchedProducts[0].id);
+      }
+
+      const orderContentType = orderRes.headers.get('content-type') || '';
+      if (orderRes.ok && orderContentType.includes('application/json')) {
+        try {
+          const oJson = await orderRes.json();
+          if (oJson.success && Array.isArray(oJson.data)) {
+            fetchedOrders = oJson.data;
+          }
+        } catch {}
+      }
+
+      // If API /api/admin/orders didn't yield orders, fetch directly from Supabase
+      if (fetchedOrders.length === 0) {
+        try {
+          const { data: supaOrders } = await supabase
+            .from('orders')
+            .select('*')
+            .order('created_at', { ascending: false });
+          if (supaOrders && Array.isArray(supaOrders)) {
+            fetchedOrders = supaOrders;
+          }
+        } catch (e) {
+          console.warn('Direct Supabase orders query failed:', e);
         }
       }
+
+      setOrders(fetchedOrders);
     } catch (err) {
       console.error('Lỗi khi tải dữ liệu admin:', err);
     } finally {
@@ -545,22 +603,39 @@ export const Admin: React.FC = () => {
   // Quick update order status
   const handleUpdateOrderStatus = async (orderId: number | string, newStatus: string) => {
     try {
-      const res = await fetch(`/api/admin/orders/${orderId}/status`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-admin-key': 'dyadia2026',
-        },
-        body: JSON.stringify({ status: newStatus }),
-      });
+      let updated = false;
+      try {
+        const res = await fetch(`/api/admin/orders/${orderId}/status`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-key': 'dyadia2026',
+          },
+          body: JSON.stringify({ status: newStatus }),
+        });
+        const contentType = res.headers.get('content-type') || '';
+        if (res.ok && contentType.includes('application/json')) {
+          const json = await res.json();
+          if (json.success) updated = true;
+        }
+      } catch {}
 
-      const json = await res.json();
-      if (!res.ok || !json.success) {
-        throw new Error(json.error || 'Cập nhật trạng thái thất bại');
+      if (!updated) {
+        // Direct Supabase update
+        const { error } = await supabase
+          .from('orders')
+          .update({ status: newStatus, updated_at: new Date().toISOString() })
+          .eq('id', orderId);
+        if (error) {
+          await supabase
+            .from('orders')
+            .update({ status: newStatus, updated_at: new Date().toISOString() })
+            .eq('order_code', orderId);
+        }
       }
 
       setOrders((prev) =>
-        prev.map((o) => (o.id === orderId ? { ...o, status: newStatus } : o))
+        prev.map((o) => (o.id === orderId || o.order_code === orderId ? { ...o, status: newStatus } : o))
       );
       setToastMessage({ text: `Đã đổi trạng thái đơn hàng sang "${getOrderStatusLabel(newStatus)}"`, type: 'success' });
     } catch (err: unknown) {

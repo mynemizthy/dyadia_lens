@@ -44,7 +44,13 @@ export const Login: React.FC = () => {
           setErrorMessage(error.message || 'Đăng nhập không thành công. Vui lòng thử lại.');
         }
       } else {
-        navigate(redirectTarget, { replace: true });
+        const isAdminUser =
+          email.trim().toLowerCase() === 'support.dyadia@gmail.com' ||
+          email.trim().toLowerCase() === 'admin@dyadialens.vn' ||
+          email.trim().toLowerCase() === 'kieuthy0101@gmail.com' ||
+          email.trim().toLowerCase().includes('admin');
+        const target = from ? `${from.pathname}${from.search || ''}` : (isAdminUser ? '/admin' : '/products');
+        navigate(target, { replace: true });
       }
     } catch (err: unknown) {
       setErrorMessage('Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại.');

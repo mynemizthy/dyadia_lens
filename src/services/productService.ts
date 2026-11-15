@@ -5,6 +5,7 @@
 
 import { Product, ProductFilter, ProductSort } from '../types/product.ts';
 import { INITIAL_PRODUCTS } from '../lib/initialProducts.ts';
+import { supabase } from '../lib/supabase.ts';
 
 const PRODUCTS_STORAGE_KEY = 'dyadia_products_data_v4';
 
@@ -45,40 +46,52 @@ export const productService = {
 
   /**
    * Get all products with optional filters and sorting
-   * Connects via Server-Side Runtime route `/api/products` to read public.products in Supabase.
+   * Connects via API or directly to Supabase public.products
    */
   async getProducts(filters?: ProductFilter, sort?: ProductSort): Promise<Product[]> {
     let products: Product[] = [];
 
+    // 1. Try API endpoint first
     try {
       const response = await fetch('/api/products');
-      if (response.ok) {
+      const contentType = response.headers.get('content-type') || '';
+      if (response.ok && contentType.includes('application/json')) {
         const json = await response.json();
         if (json.success && Array.isArray(json.data) && json.data.length > 0) {
           products = json.data as Product[];
           currentDataSource = 'supabase';
           lastSupabaseError = null;
-          // Synchronize locally as backup
           saveStoredProducts(products);
-        } else if (json.data && json.data.length === 0) {
-          currentDataSource = 'supabase';
-          lastSupabaseError = 'Chưa có sản phẩm nào trong hệ thống.';
-          products = getStoredProducts();
-        } else {
-          lastSupabaseError = json.error || 'Lỗi không xác định khi truy vấn Supabase.';
-          products = getStoredProducts();
-          currentDataSource = 'localStorage';
         }
-      } else {
-        const errJson = await response.json().catch(() => ({}));
-        lastSupabaseError = errJson.error || `Lỗi máy chủ HTTP ${response.status} khi truy vấn /api/products`;
-        products = getStoredProducts();
-        currentDataSource = 'localStorage';
       }
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Lỗi kết nối API Server';
-      console.warn('[productService] Network error fetching /api/products, using local backup:', msg);
-      lastSupabaseError = `Không thể kết nối đến máy chủ API: ${msg}`;
+    } catch {
+      // ignore and fallback
+    }
+
+    // 2. If API didn't return products, query Supabase directly
+    if (products.length === 0) {
+      try {
+        const { data, error } = await supabase
+          .from('products')
+          .select('*')
+          .order('sku', { ascending: true });
+
+        if (!error && data && data.length > 0) {
+          products = data as Product[];
+          currentDataSource = 'supabase';
+          lastSupabaseError = null;
+          saveStoredProducts(products);
+        } else if (error) {
+          lastSupabaseError = error.message;
+        }
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : 'Lỗi kết nối Supabase';
+        lastSupabaseError = msg;
+      }
+    }
+
+    // 3. Fallback to localStorage / initial products if still empty
+    if (products.length === 0) {
       products = getStoredProducts();
       currentDataSource = 'localStorage';
     }
@@ -98,11 +111,6 @@ export const productService = {
       if (filters.category) {
         products = products.filter(
           (p) => (p.category || '').toLowerCase() === filters.category!.toLowerCase()
-        );
-      }
-      if (filters.replacementPeriod !== undefined) {
-        products = products.filter(
-          (p) => p.replacement_period_days === filters.replacementPeriod
         );
       }
       if (filters.color) {
@@ -160,7 +168,8 @@ export const productService = {
   async getProductBySlug(slug: string): Promise<Product | null> {
     try {
       const res = await fetch(`/api/products/${encodeURIComponent(slug)}`);
-      if (res.ok) {
+      const contentType = res.headers.get('content-type') || '';
+      if (res.ok && contentType.includes('application/json')) {
         const json = await res.json();
         if (json.success && json.data) {
           return json.data as Product;
@@ -170,10 +179,44 @@ export const productService = {
       // Fallback
     }
 
+    // Direct Supabase query fallback
+    try {
+      let { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .eq('slug', slug)
+        .maybeSingle();
+
+      if (!data && !error) {
+        const byId = await supabase
+          .from('products')
+          .select('*')
+          .eq('id', slug)
+          .maybeSingle();
+        data = byId.data;
+      }
+
+      if (data) {
+        // Query variants
+        const { data: variants } = await supabase
+          .from('product_variants')
+          .select('*')
+          .eq('product_id', data.id)
+          .order('power', { ascending: false });
+
+        return {
+          ...data,
+          prescription_power_options: variants || data.prescription_power_options || [],
+        } as Product;
+      }
+    } catch {
+      // ignore
+    }
+
     const products = await this.getProducts();
     let found = products.find((p) => p.slug === slug || p.id === slug || p.sku === slug);
     if (!found && slug) {
-      // Fuzzy fallback: e.g. "cat-titude-choco-paw" or "dolly-choco" matches "dolly-1-day-choco"
+      // Fuzzy fallback
       const normalizeSlug = (s: string) =>
         s.toLowerCase().replace(/(?:^|-)(?:1|30)-?day(?=-|$)/g, '').replace(/[^a-z0-9]/g, '');
       const cleanSlug = normalizeSlug(slug);

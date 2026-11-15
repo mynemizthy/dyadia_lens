@@ -94,7 +94,8 @@ export const Account: React.FC = () => {
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
         });
-        if (res.ok) {
+        const contentType = res.headers.get('content-type') || '';
+        if (res.ok && contentType.includes('application/json')) {
           const json = await res.json();
           if (json.success && Array.isArray(json.data)) {
             setOrders(

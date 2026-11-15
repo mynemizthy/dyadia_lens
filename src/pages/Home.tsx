@@ -274,7 +274,7 @@ export const Home: React.FC = () => {
             className="group relative rounded-2xl overflow-hidden aspect-[4/3] bg-rose-950 shadow-sm border border-rose-100"
           >
             <img
-              src="/src/assets/images/dyadia_hero_natural_brown_1793544640456.jpg"
+              src="/images/models/model_daily_1day.jpg"
               alt="Lens 1 ngày"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-85"
             />
@@ -290,7 +290,7 @@ export const Home: React.FC = () => {
             className="group relative rounded-2xl overflow-hidden aspect-[4/3] bg-rose-950 shadow-sm border border-rose-100"
           >
             <img
-              src="/src/assets/images/dyadia_hero_crystal_gray_1793544640913.jpg"
+              src="/images/models/model_monthly_1month.jpg"
               alt="Lens 1 tháng"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-85"
             />
@@ -306,7 +306,7 @@ export const Home: React.FC = () => {
             className="group relative rounded-2xl overflow-hidden aspect-[4/3] bg-rose-950 shadow-sm border border-rose-100"
           >
             <img
-              src="/src/assets/images/dyadia_hero_choco_paw_1793544641957.jpg"
+              src="/images/models/model_toric.jpg"
               alt="Lens khoá trục"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-85"
             />
@@ -380,7 +380,7 @@ export const Home: React.FC = () => {
           </div>
           <div className="aspect-[4/3] lg:aspect-auto lg:h-full overflow-hidden bg-rose-50">
             <img
-              src="/src/assets/images/dyadia_brand_story_1793544641614.jpg"
+              src="/images/models/model_brand_story.jpg"
               alt="Dyadia Brand Story"
               className="w-full h-full object-cover"
             />

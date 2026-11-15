@@ -865,7 +865,7 @@ export const Admin: React.FC = () => {
                     base_curve: 8.7,
                     water_content: 48,
                     origin: 'Hàn Quốc (Made in Korea)',
-                    image_url: '/src/assets/images/dyadia_hero_natural_brown_1793544640456.jpg',
+                    image_url: '/images/models/model_daily_1day.jpg',
                     gallery_images: ['', ''],
                     description: '',
                     is_new: true,
@@ -911,7 +911,7 @@ export const Admin: React.FC = () => {
 
                   <div className="w-16 h-16 rounded-xl bg-slate-50 border border-slate-200 overflow-hidden shrink-0 flex items-center justify-center">
                     <img
-                      src={prod.image_url || '/src/assets/images/dyadia_hero_natural_brown_1793544640456.jpg'}
+                      src={prod.image_url || '/images/models/model_daily_1day.jpg'}
                       alt=""
                       className="w-full h-full object-cover"
                     />
@@ -1402,7 +1402,7 @@ export const Admin: React.FC = () => {
                           updated[index] = { ...updated[index], image: e.target.value };
                           setAplusSlots(updated);
                         }}
-                        placeholder="/src/assets/images/... hoặc URL ảnh thực tế"
+                        placeholder="/images/... hoặc URL ảnh thực tế"
                         className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-rose-400"
                       />
                       <span className="text-[10px] text-slate-400 mt-1 block">
@@ -1559,7 +1559,7 @@ export const Admin: React.FC = () => {
                     title: 'Bộ Sưu Tập Mới Dyadia',
                     kicker: 'New Signature Collection',
                     description: 'Trải nghiệm dòng lens chuẩn K-Beauty với chất liệu cao cấp và màu sắc quyến rũ.',
-                    image: '/src/assets/images/dyadia_hero_natural_brown_1793544640456.jpg',
+                    image: '/images/models/model_daily_1day.jpg',
                     ctaText: 'Khám phá ngay',
                     ctaLink: '/products',
                   };
@@ -1782,7 +1782,7 @@ export const Admin: React.FC = () => {
                     slug: `bai-viet-moi-${Math.floor(100 + Math.random() * 900)}`,
                     title: 'Tiêu đề bài viết mới về kính áp tròng',
                     excerpt: 'Mô tả ngắn gọn nội dung bài viết hiển thị ở trang danh sách...',
-                    cover_image: '/src/assets/images/dyadia_hero_natural_brown_1793544640456.jpg',
+                    cover_image: '/images/models/model_daily_1day.jpg',
                     category: 'Bí quyết chọn lens',
                     author: {
                       name: profile?.full_name || 'Biên Tập Viên Dyadia',
@@ -2172,7 +2172,7 @@ export const Admin: React.FC = () => {
                         const newBlock: BlogBlock = {
                           id: `b-${Date.now()}`,
                           type: 'image',
-                          content: '/src/assets/images/dyadia_hero_natural_brown_1793544640456.jpg',
+                          content: '/images/models/model_daily_1day.jpg',
                           extra: { caption: 'Hình ảnh minh họa sản phẩm kính áp tròng cao cấp' },
                         };
                         setEditingBlogPost({
@@ -2198,7 +2198,7 @@ export const Admin: React.FC = () => {
                             productId: sampleLens?.id,
                             productName: sampleLens?.product_name || 'Cat-titude Kristin - Tabby Brown',
                             productPrice: sampleLens?.price || 85000,
-                            productImage: sampleLens?.image_url || '/src/assets/images/dyadia_hero_natural_brown_1793544640456.jpg',
+                            productImage: sampleLens?.image_url || '/images/models/model_daily_1day.jpg',
                           },
                         };
                         setEditingBlogPost({
@@ -2872,7 +2872,7 @@ export const Admin: React.FC = () => {
                       type="text"
                       value={editingProduct.image_url || ''}
                       onChange={(e) => setEditingProduct({ ...editingProduct, image_url: e.target.value })}
-                      placeholder="https://... hoặc /src/assets/images/..."
+                      placeholder="https://... hoặc /images/..."
                       className="w-full px-3 py-2 text-xs bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-rose-400"
                     />
                   </div>
@@ -2889,7 +2889,7 @@ export const Admin: React.FC = () => {
                         g[0] = e.target.value;
                         setEditingProduct({ ...editingProduct, gallery_images: g });
                       }}
-                      placeholder="https://... hoặc /src/assets/images/..."
+                      placeholder="https://... hoặc /images/..."
                       className="w-full px-3 py-2 text-xs bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-rose-400"
                     />
                   </div>
@@ -2906,7 +2906,7 @@ export const Admin: React.FC = () => {
                         g[1] = e.target.value;
                         setEditingProduct({ ...editingProduct, gallery_images: g });
                       }}
-                      placeholder="https://... hoặc /src/assets/images/..."
+                      placeholder="https://... hoặc /images/..."
                       className="w-full px-3 py-2 text-xs bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-rose-400"
                     />
                   </div>

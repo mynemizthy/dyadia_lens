@@ -26,7 +26,7 @@ export const DEFAULT_ABOUT_DATA: BrandAboutData = {
   story_title: 'Thấu hiểu nỗi băn khoăn khi hai mắt lệch độ cận',
   story_content_1: 'Hầu hết người đeo kính áp tròng cận thị đều gặp tình trạng mắt trái và mắt phải có độ cận chênh lệch nhau (ví dụ: mắt trái -2.00, mắt phải -3.00). Tại các cửa hàng truyền thống, việc phải mua cả hộp 2 chiếc cùng độ khiến khách hàng buộc phải mua gấp đôi số lượng, gây lãng phí lớn.',
   story_content_2: 'Tại Dyadia Lens, chúng tôi xây dựng quy trình đóng gói và thương mại điện tử chuyên nghiệp hỗ trợ định giá và đặt mua lẻ theo từng chiếc lens. Khách hàng hoàn toàn chủ động kết hợp độ cận chuẩn xác cho từng bên mắt với chi phí tiết kiệm nhất.',
-  story_image: '/src/assets/images/dyadia_hero_natural_brown_1793544640456.jpg',
+  story_image: '/images/models/model_brand_story.jpg',
   philosophy_1_title: '1. Êm ái & Dưỡng ẩm',
   philosophy_1_desc: 'Ưu tiên các chất liệu thế hệ mới như Silicone Hydrogel và PC Hydrogel với khả năng thẩm thấu oxy cao, giữ mắt luôn sáng khỏe và ngậm ẩm suốt ngày dài làm việc.',
   philosophy_2_title: '2. Vân lens K-Beauty',

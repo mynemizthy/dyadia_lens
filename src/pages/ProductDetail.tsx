@@ -272,10 +272,10 @@ export const ProductDetail: React.FC = () => {
   }, [slug]);
 
   const defaultDetailImages = [
-    '/src/assets/images/dyadia_hero_natural_brown_1793544640456.jpg',
-    '/src/assets/images/dyadia_hero_crystal_gray_1793544640913.jpg',
-    '/src/assets/images/dyadia_hero_choco_paw_1793544641957.jpg',
-    '/src/assets/images/dyadia_brand_story_1793544641614.jpg',
+    '/images/models/model_daily_1day.jpg',
+    '/images/models/model_monthly_1month.jpg',
+    '/images/models/model_toric.jpg',
+    '/images/models/model_brand_story.jpg',
   ];
 
   const rawImages = product

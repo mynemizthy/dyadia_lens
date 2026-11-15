@@ -128,6 +128,10 @@ export const ForgotPassword: React.FC = () => {
                   <span>Quay lại đăng nhập</span>
                 </Link>
               </div>
+
+              <div className="mt-4 p-3 rounded-xl bg-slate-50 border border-slate-100 text-[11px] text-slate-500 text-center leading-relaxed">
+                Hệ thống sẽ gửi email chứa liên kết bảo mật để bạn thiết lập mật khẩu mới trong vòng 24 giờ.
+              </div>
             </form>
           )}
         </div>

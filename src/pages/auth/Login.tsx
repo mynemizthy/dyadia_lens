@@ -115,7 +115,7 @@ export const Login: React.FC = () => {
                 </label>
                 <Link
                   to="/forgot-password"
-                  className="text-[11px] font-medium text-slate-500 hover:text-slate-900 underline underline-offset-2 transition-colors"
+                  className="text-xs font-medium text-[#D96B8A] hover:text-[#B84A6A] hover:underline transition-colors"
                 >
                   Quên mật khẩu?
                 </Link>

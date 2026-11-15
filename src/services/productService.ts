@@ -247,22 +247,37 @@ export const productService = {
    * Get related products based on collection or category
    */
   async getRelatedProducts(productId: string, limit = 4): Promise<Product[]> {
-    const all = await this.getProducts();
+    let all = await this.getProducts();
+    if (!all || all.length === 0) {
+      all = INITIAL_PRODUCTS;
+    }
     const current = all.find((p) => p.id === productId || p.sku === productId || p.slug === productId);
-    if (!current) {
-      return all.filter((p) => p.id !== productId && p.sku !== productId).slice(0, limit);
+    
+    let related: Product[] = [];
+    if (current) {
+      related = all.filter(
+        (p) =>
+          p.id !== current.id &&
+          p.sku !== current.sku &&
+          p.slug !== current.slug &&
+          ((current.collection && p.collection && p.collection === current.collection) ||
+            (current.category && p.category && p.category === current.category))
+      );
     }
 
-    let related = all.filter(
-      (p) =>
-        p.id !== current.id &&
-        p.sku !== current.sku &&
-        ((current.collection && p.collection === current.collection) ||
-          p.category === current.category)
-    );
-    if (related.length === 0) {
-      related = all.filter((p) => p.id !== current.id && p.sku !== current.sku);
+    if (related.length < limit) {
+      const remaining = all.filter(
+        (p) =>
+          (!current || (p.id !== current.id && p.sku !== current.sku && p.slug !== current.slug)) &&
+          !related.some((r) => r.id === p.id || r.sku === p.sku)
+      );
+      related = [...related, ...remaining];
     }
+
+    if (related.length === 0) {
+      related = INITIAL_PRODUCTS.filter((p) => p.id !== productId && p.sku !== productId);
+    }
+
     return related.slice(0, limit);
   },
 };

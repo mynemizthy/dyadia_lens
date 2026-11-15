@@ -255,7 +255,7 @@ export const ProductDetail: React.FC = () => {
           }
 
           const [related, prodReviews] = await Promise.all([
-            productService.getRelatedProducts(found.id, 4),
+            productService.getRelatedProducts(found.id || found.sku || (slug as string), 4),
             orderService.getReviews(found.id),
           ]);
           setRelatedProducts(related);

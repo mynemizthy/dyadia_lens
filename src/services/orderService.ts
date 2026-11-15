@@ -126,8 +126,25 @@ export const orderService = {
     items: any[];
     paymentMethod: string;
     couponCode?: string;
+    subtotal?: number;
+    discountAmount?: number;
+    shippingFee?: number;
+    totalAmount?: number;
     token?: string;
   }): Promise<Order> {
+    const calculatedSubtotal = orderPayload.items.reduce(
+      (sum, item) => sum + (item.unitPrice ?? item.product?.price ?? item.price ?? 0) * (item.quantity || 1),
+      0
+    );
+    const subtotal = orderPayload.subtotal ?? calculatedSubtotal;
+    const shippingFee = orderPayload.shippingFee ?? (subtotal >= 299000 ? 0 : 30000);
+    const discountAmount = orderPayload.discountAmount ?? (
+      orderPayload.couponCode === 'WELCOME10'
+        ? Math.round(subtotal * 0.1)
+        : (orderPayload.couponCode ? 20000 : 0)
+    );
+    const totalAmount = orderPayload.totalAmount ?? Math.max(0, subtotal - discountAmount + shippingFee);
+
     // 1. Try API first
     try {
       const headers: Record<string, string> = {
@@ -141,10 +158,20 @@ export const orderService = {
         method: 'POST',
         headers,
         body: JSON.stringify({
-          customer: orderPayload.customer,
+          customer: {
+            ...orderPayload.customer,
+            subtotal,
+            discountAmount,
+            shippingFee,
+            couponCode: orderPayload.couponCode,
+          },
           items: orderPayload.items,
           paymentMethod: orderPayload.paymentMethod,
           couponCode: orderPayload.couponCode,
+          subtotal,
+          discountAmount,
+          shippingFee,
+          totalAmount,
         }),
       });
 
@@ -159,11 +186,11 @@ export const orderService = {
             customer: raw.customer,
             items: raw.items,
             paymentMethod: raw.payment_method,
-            subtotal: raw.customer?.subtotal || raw.total_amount,
-            discountAmount: raw.customer?.discountAmount || 0,
-            shippingFee: raw.customer?.shippingFee || 0,
-            totalAmount: raw.total_amount,
-            couponCode: raw.customer?.couponCode,
+            subtotal: raw.customer?.subtotal ?? subtotal,
+            discountAmount: raw.customer?.discountAmount ?? discountAmount,
+            shippingFee: raw.customer?.shippingFee ?? shippingFee,
+            totalAmount: raw.total_amount ?? totalAmount,
+            couponCode: raw.customer?.couponCode || orderPayload.couponCode,
             status: raw.status as OrderStatus,
             createdAt: raw.created_at,
             updatedAt: raw.updated_at,
@@ -176,13 +203,6 @@ export const orderService = {
 
     // 2. Direct Supabase insert
     const orderCode = generateOrderCode();
-    const subtotal = orderPayload.items.reduce(
-      (sum, item) => sum + (item.price || 0) * (item.quantity || 1),
-      0
-    );
-    const shippingFee = subtotal >= 300000 ? 0 : 30000;
-    const discountAmount = orderPayload.couponCode ? 20000 : 0;
-    const totalAmount = Math.max(0, subtotal - discountAmount + shippingFee);
 
     const newOrderRow = {
       order_code: orderCode,
@@ -201,29 +221,35 @@ export const orderService = {
       updated_at: new Date().toISOString(),
     };
 
-    const { data, error } = await supabase
-      .from('orders')
-      .insert(newOrderRow)
-      .select()
-      .single();
+    let insertedData: any = null;
+    try {
+      const { data, error } = await supabase
+        .from('orders')
+        .insert(newOrderRow)
+        .select()
+        .single();
 
-    if (error) {
-      console.error('Supabase direct insert order error:', error);
-      // Even if DB fails, return in-memory order so user can see confirmation
+      if (!error && data) {
+        insertedData = data;
+      } else if (error) {
+        console.error('Supabase direct insert order error:', error);
+      }
+    } catch (err) {
+      console.error('Supabase order insert exception:', err);
     }
 
-    const raw = data || newOrderRow;
+    const raw = insertedData || newOrderRow;
     const orderObj: Order = {
       id: raw.id || raw.order_code,
       orderCode: raw.order_code,
       customer: raw.customer,
       items: raw.items,
       paymentMethod: raw.payment_method,
-      subtotal: raw.customer?.subtotal || raw.total_amount,
-      discountAmount: raw.customer?.discountAmount || 0,
-      shippingFee: raw.customer?.shippingFee || 0,
-      totalAmount: raw.total_amount,
-      couponCode: raw.customer?.couponCode,
+      subtotal: raw.customer?.subtotal ?? subtotal,
+      discountAmount: raw.customer?.discountAmount ?? discountAmount,
+      shippingFee: raw.customer?.shippingFee ?? shippingFee,
+      totalAmount: raw.total_amount ?? totalAmount,
+      couponCode: raw.customer?.couponCode || orderPayload.couponCode,
       status: raw.status as OrderStatus,
       createdAt: raw.created_at,
       updatedAt: raw.updated_at,
@@ -249,9 +275,9 @@ export const orderService = {
             customer: raw.customer,
             items: raw.items,
             paymentMethod: raw.payment_method,
-            subtotal: raw.customer?.subtotal || raw.total_amount,
-            discountAmount: raw.customer?.discountAmount || 0,
-            shippingFee: raw.customer?.shippingFee || 0,
+            subtotal: raw.customer?.subtotal ?? raw.total_amount,
+            discountAmount: raw.customer?.discountAmount ?? 0,
+            shippingFee: raw.customer?.shippingFee ?? 0,
             totalAmount: raw.total_amount,
             couponCode: raw.customer?.couponCode,
             status: raw.status as OrderStatus,
@@ -282,9 +308,9 @@ export const orderService = {
           customer: data.customer,
           items: data.items,
           paymentMethod: data.payment_method,
-          subtotal: data.customer?.subtotal || data.total_amount,
-          discountAmount: data.customer?.discountAmount || 0,
-          shippingFee: data.customer?.shippingFee || 0,
+          subtotal: data.customer?.subtotal ?? data.total_amount,
+          discountAmount: data.customer?.discountAmount ?? 0,
+          shippingFee: data.customer?.shippingFee ?? 0,
           totalAmount: data.total_amount,
           couponCode: data.customer?.couponCode,
           status: data.status as OrderStatus,

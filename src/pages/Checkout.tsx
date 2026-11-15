@@ -109,6 +109,10 @@ export const Checkout: React.FC = () => {
         items: [...items],
         paymentMethod,
         couponCode: coupon?.code,
+        subtotal,
+        discountAmount,
+        shippingFee,
+        totalAmount,
         token: token || undefined,
       });
 

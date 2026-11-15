@@ -365,29 +365,51 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setSession(userSession);
       setProfile(userProfile);
 
-      // 3. Asynchronously sync to Supabase in background
-      supabase.auth.admin
-        .createUser({
+      // 3. Real Supabase signUp: Creates user in auth.users and triggers insertion into public.profiles
+      try {
+        const { data: supaCreated, error: supaErr } = await supabase.auth.signUp({
           email: trimmedEmail,
           password,
-          email_confirm: true,
-          user_metadata: { full_name: fullName.trim(), phone: phone.trim() },
-        })
-        .then(async ({ data: supaCreated }) => {
-          if (supaCreated?.user) {
-            await supabase
-              .from('profiles')
-              .upsert({
-                id: supaCreated.user.id,
-                full_name: fullName.trim(),
-                phone: phone.trim(),
-                role: 'customer',
-                updated_at: new Date().toISOString(),
-              })
-              .catch(() => {});
-          }
-        })
-        .catch(() => {});
+          options: {
+            data: {
+              full_name: fullName.trim(),
+              phone: phone.trim(),
+            },
+          },
+        });
+
+        if (supaCreated?.user) {
+          const realUserId = supaCreated.user.id;
+          const realUserObj: User = {
+            ...newUserObj,
+            id: realUserId,
+          };
+          const realProfile: UserProfile = {
+            id: realUserId,
+            full_name: fullName.trim(),
+            phone: phone.trim(),
+            role: 'customer',
+          };
+
+          // Also upsert directly to profiles table to guarantee persistence
+          await supabase
+            .from('profiles')
+            .upsert({
+              id: realUserId,
+              full_name: fullName.trim(),
+              phone: phone.trim(),
+              updated_at: new Date().toISOString(),
+            })
+            .catch(() => {});
+
+          setUser(realUserObj);
+          setProfile(realProfile);
+          localStorage.setItem(USER_KEY, JSON.stringify(realUserObj));
+          localStorage.setItem(PROFILE_KEY, JSON.stringify(realProfile));
+        }
+      } catch (err) {
+        console.warn('Supabase real-time registration sync:', err);
+      }
 
       return {
         error: null,

@@ -248,15 +248,21 @@ export const productService = {
    */
   async getRelatedProducts(productId: string, limit = 4): Promise<Product[]> {
     const all = await this.getProducts();
-    const current = all.find((p) => p.id === productId);
-    if (!current) return all.slice(0, limit);
+    const current = all.find((p) => p.id === productId || p.sku === productId || p.slug === productId);
+    if (!current) {
+      return all.filter((p) => p.id !== productId && p.sku !== productId).slice(0, limit);
+    }
 
-    const related = all.filter(
+    let related = all.filter(
       (p) =>
-        p.id !== productId &&
+        p.id !== current.id &&
+        p.sku !== current.sku &&
         ((current.collection && p.collection === current.collection) ||
           p.category === current.category)
     );
+    if (related.length === 0) {
+      related = all.filter((p) => p.id !== current.id && p.sku !== current.sku);
+    }
     return related.slice(0, limit);
   },
 };

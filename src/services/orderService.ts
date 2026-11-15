@@ -35,7 +35,7 @@ export const orderService = {
   /**
    * Fetch customer orders from Supabase via server-side protected route or direct Supabase query
    */
-  async getUserOrders(userId: string, token?: string): Promise<Order[]> {
+  async getUserOrders(userId: string, token?: string, userEmail?: string): Promise<Order[]> {
     // 1. Try API
     try {
       const headers: Record<string, string> = {
@@ -50,11 +50,12 @@ export const orderService = {
         if (json.success && Array.isArray(json.data)) {
           return json.data.map((raw: any) => ({
             id: raw.id || raw.order_code,
+            userId: raw.user_id,
             orderCode: raw.order_code,
             customer: raw.customer || {},
             items: raw.items || [],
             paymentMethod: raw.payment_method || 'cod',
-            subtotal: raw.customer?.subtotal || raw.total_amount || 0,
+            subtotal: raw.customer?.subtotal ?? raw.total_amount ?? 0,
             discountAmount: raw.customer?.discountAmount || 0,
             shippingFee: raw.customer?.shippingFee || 0,
             totalAmount: raw.total_amount || 0,
@@ -78,15 +79,16 @@ export const orderService = {
         .order('created_at', { ascending: false });
 
       if (!error && Array.isArray(data)) {
-        const supaOrders = data.map((raw: any) => ({
+        const allOrders: Order[] = data.map((raw: any) => ({
           id: raw.id || raw.order_code,
+          userId: raw.user_id,
           orderCode: raw.order_code,
           customer: raw.customer || {},
           items: raw.items || [],
           paymentMethod: raw.payment_method || 'cod',
-          subtotal: raw.customer?.subtotal || raw.total_amount || 0,
-          discountAmount: raw.customer?.discountAmount || 0,
-          shippingFee: raw.customer?.shippingFee || 0,
+          subtotal: raw.customer?.subtotal ?? raw.total_amount ?? 0,
+          discountAmount: raw.customer?.discountAmount ?? 0,
+          shippingFee: raw.customer?.shippingFee ?? 0,
           totalAmount: raw.total_amount || 0,
           couponCode: raw.customer?.couponCode,
           status: raw.status as OrderStatus,
@@ -94,14 +96,24 @@ export const orderService = {
           createdAt: raw.created_at,
           updatedAt: raw.updated_at,
         }));
+
         const stored = getStoredOrders();
-        const merged = [...supaOrders];
         for (const so of stored) {
-          if (!merged.some((o) => o.orderCode === so.orderCode)) {
-            merged.push(so);
+          if (!allOrders.some((o) => o.orderCode === so.orderCode)) {
+            allOrders.push(so);
           }
         }
-        return merged;
+
+        // Filter orders for this customer (by userId or by email)
+        const lowerEmail = userEmail?.trim().toLowerCase();
+        const userFiltered = allOrders.filter((o) => {
+          if (userId && o.userId && String(o.userId) === String(userId)) return true;
+          if (userId && (o.customer as any)?.userId && String((o.customer as any).userId) === String(userId)) return true;
+          if (lowerEmail && o.customer?.email && o.customer.email.trim().toLowerCase() === lowerEmail) return true;
+          return false;
+        });
+
+        return userFiltered.length > 0 ? userFiltered : allOrders;
       }
     } catch (err) {
       console.error('Error fetching user orders from Supabase:', err);
@@ -114,6 +126,7 @@ export const orderService = {
    * Create new order via server-side endpoint or direct Supabase insert
    */
   async createOrder(orderPayload: {
+    userId?: string;
     customer: {
       fullName: string;
       phone: string;
@@ -122,6 +135,7 @@ export const orderService = {
       district: string;
       address: string;
       note?: string;
+      userId?: string;
     };
     items: any[];
     paymentMethod: string;
@@ -203,11 +217,14 @@ export const orderService = {
 
     // 2. Direct Supabase insert
     const orderCode = generateOrderCode();
+    const finalUserId = orderPayload.userId || (orderPayload.customer as any)?.userId || null;
 
     const newOrderRow = {
       order_code: orderCode,
+      user_id: finalUserId,
       customer: {
         ...orderPayload.customer,
+        userId: finalUserId,
         subtotal,
         discountAmount,
         shippingFee,
@@ -231,6 +248,19 @@ export const orderService = {
 
       if (!error && data) {
         insertedData = data;
+        // Cập nhật thông tin profile của khách hàng nếu có userId
+        if (finalUserId) {
+          supabase
+            .from('profiles')
+            .upsert({
+              id: finalUserId,
+              full_name: orderPayload.customer.fullName,
+              phone: orderPayload.customer.phone,
+              updated_at: new Date().toISOString(),
+            })
+            .then(() => {})
+            .catch(() => {});
+        }
         // Trừ tồn kho phân loại lens trên Supabase theo thời gian thực
         if (Array.isArray(orderPayload.items)) {
           for (const item of orderPayload.items) {
@@ -256,6 +286,7 @@ export const orderService = {
     const raw = insertedData || newOrderRow;
     const orderObj: Order = {
       id: raw.id || raw.order_code,
+      userId: raw.user_id || finalUserId,
       orderCode: raw.order_code,
       customer: raw.customer,
       items: raw.items,
@@ -286,6 +317,7 @@ export const orderService = {
           const raw = json.data;
           const orderObj: Order = {
             id: raw.id || raw.order_code,
+            userId: raw.user_id,
             orderCode: raw.order_code,
             customer: raw.customer,
             items: raw.items,
@@ -319,6 +351,7 @@ export const orderService = {
       if (data) {
         const orderObj: Order = {
           id: data.id || data.order_code,
+          userId: data.user_id,
           orderCode: data.order_code,
           customer: data.customer,
           items: data.items,

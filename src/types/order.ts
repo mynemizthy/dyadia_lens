@@ -71,6 +71,7 @@ export interface OrderCustomerInfo {
 
 export interface Order {
   id: string | number;
+  userId?: string | null;
   orderCode: string;
   customer: OrderCustomerInfo;
   items: CartItem[];

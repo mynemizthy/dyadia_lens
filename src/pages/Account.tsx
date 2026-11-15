@@ -122,7 +122,7 @@ export const Account: React.FC = () => {
         }
       }
 
-      const userOrders = await orderService.getUserOrders(user.id, token || undefined);
+      const userOrders = await orderService.getUserOrders(user.id, token || undefined, user.email || undefined);
       setOrders(userOrders);
     } catch (err) {
       console.error('Lỗi khi tải lịch sử đơn hàng:', err);

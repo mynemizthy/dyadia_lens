@@ -97,6 +97,7 @@ export const Checkout: React.FC = () => {
     try {
       const token = getAccessToken();
       const newOrder = await orderService.createOrder({
+        userId: user?.id || undefined,
         customer: {
           fullName: data.fullName,
           phone: data.phone,
@@ -105,6 +106,7 @@ export const Checkout: React.FC = () => {
           district: data.district,
           address: data.address,
           note: data.note || undefined,
+          userId: user?.id || undefined,
         },
         items: [...items],
         paymentMethod,

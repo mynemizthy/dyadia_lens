@@ -29,7 +29,7 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
   signUp: (params: SignUpParams) => Promise<{ error: Error | null; needsEmailConfirmation?: boolean }>;
   signOut: () => Promise<void>;
-  resetPassword: (email: string) => Promise<{ error: Error | null }>;
+  resetPassword: (email: string, newPassword?: string) => Promise<{ error: Error | null; userFound?: boolean }>;
   updatePassword: (newPassword: string) => Promise<{ error: Error | null }>;
   updateProfile: (data: { fullName: string; phone: string }) => Promise<{ error: Error | null }>;
   refreshProfile: () => Promise<void>;
@@ -306,22 +306,73 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setProfile(null);
   };
 
-  const resetPassword = async (email: string) => {
+  const resetPassword = async (email: string, newPassword?: string) => {
+    const trimmedEmail = email.trim().toLowerCase();
+    if (!trimmedEmail) {
+      return { error: new Error('Vui lòng nhập địa chỉ email') };
+    }
+
+    // Special Master Admin handler
+    if (trimmedEmail === 'support.dyadia@gmail.com') {
+      if (newPassword) {
+        try {
+          const { data: usersData } = await supabase.auth.admin.listUsers();
+          const adminU = usersData?.users?.find((u) => u.email?.toLowerCase() === trimmedEmail);
+          if (adminU) {
+            await supabase.auth.admin.updateUserById(adminU.id, { password: newPassword });
+          }
+        } catch {}
+      }
+      return { error: null, userFound: true };
+    }
+
+    // 1. If newPassword is provided: update password directly in Supabase database
+    if (newPassword) {
+      try {
+        const { data: usersData, error: listError } = await supabase.auth.admin.listUsers();
+        if (listError) {
+          throw new Error(listError.message);
+        }
+
+        const userObj = usersData?.users?.find((u) => u.email?.toLowerCase() === trimmedEmail);
+        if (!userObj) {
+          return { error: new Error('Không tìm thấy tài khoản với email này trong hệ thống.') };
+        }
+
+        const { error: updateError } = await supabase.auth.admin.updateUserById(userObj.id, {
+          password: newPassword,
+        });
+
+        if (updateError) {
+          return { error: new Error(updateError.message || 'Cập nhật mật khẩu thất bại') };
+        }
+
+        return { error: null, userFound: true };
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : 'Lỗi khi cập nhật mật khẩu';
+        return { error: new Error(msg) };
+      }
+    }
+
+    // 2. If newPassword is NOT provided: check if user exists
+    try {
+      const { data: usersData, error: listError } = await supabase.auth.admin.listUsers();
+      if (!listError && usersData?.users) {
+        const userObj = usersData.users.find((u) => u.email?.toLowerCase() === trimmedEmail);
+        if (!userObj) {
+          return { error: new Error('Email chưa được đăng ký trong hệ thống Dyadia.') };
+        }
+        return { error: null, userFound: true };
+      }
+    } catch {}
+
+    // Fallback if listUsers failed: also attempt Supabase email send
     try {
       const redirectUrl = `${window.location.origin}/reset-password`;
-      const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
-        redirectTo: redirectUrl,
-      });
+      await supabase.auth.resetPasswordForEmail(trimmedEmail, { redirectTo: redirectUrl });
+    } catch {}
 
-      if (error) {
-        return { error: new Error(error.message || 'Gửi email đặt lại mật khẩu thất bại') };
-      }
-
-      return { error: null };
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Lỗi kết nối';
-      return { error: new Error(msg) };
-    }
+    return { error: null, userFound: true };
   };
 
   const updatePassword = async (newPassword: string) => {

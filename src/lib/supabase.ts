@@ -7,8 +7,7 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 // Read public credentials safely for Supabase in browser or fallback to client key
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://redobljqvbrouykjrcdo.supabase.co';
-const rawKey = import.meta.env.VITE_SUPABASE_ANON_KEY ||
-  (typeof atob !== 'undefined' ? atob('c2Jfc2VjcmV0X0k3SGl1aWJqdkVQSG9CWUtlOUpZendfYkVBdXBnUWU=') : '');
+const rawKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'sb_publishable_NN7gS5ZCug4fFGSUTHNMbw_D1F94eeT';
 
 export const supabase: SupabaseClient = createClient(supabaseUrl, rawKey, {
   auth: {

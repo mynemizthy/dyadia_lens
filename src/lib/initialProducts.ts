@@ -51,7 +51,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: null,
     description: 'Sắc nâu mật ong pha vàng kem ngọt ngào, gợi nhớ bộ lông mèo tabby ấm áp. Dải highlight tinh tế giúp đôi mắt long lanh, có chiều sâu và trông luôn tràn đầy sức sống. Hợp phong cách ngọt ngào, dịu dàng, makeup tông cam đào hoặc nâu sữa, rất ăn ảnh khi đi chơi và chụp hình. Lens 1 ngày, chất liệu Silicone Hydrogel, đường kính 14.2mm, đường kính vân 13.6mm, độ cong 8.7mm, hàm lượng nước 45%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.\n\nLưu ý về quy cách đóng gói:\n• Mua từ 10 chiếc cùng độ cận: Sản phẩm sẽ được đóng trong hộp nguyên seal chính hãng như hình ảnh mô tả.\n• Mua lẻ (dưới 10 chiếc hoặc lẻ độ cho 2 mắt): Sản phẩm sẽ được đóng gói theo từng vỉ lens lẻ vô trùng, tiện lợi bảo quản và bảo đảm an toàn y tế tuyệt đối.',
-    price: 95000, // Giá per single lens as in project specification
+    price: 85000, // Giá per single lens as in project specification
     stock_quantity: 65,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/cat-titude/tabby-brown-001.jpg',
     gallery_images: [
@@ -90,7 +90,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: null,
     description: 'Xám khói pha ánh xanh sapphire và chút bạc lạnh, tạo nên ánh nhìn mèo sắc sảo mà vẫn mềm mại. Sapphire Gray làm đôi mắt trở nên sâu, bí ẩn và sang hơn, đặc biệt nổi bật dưới ánh sáng. Hợp phong cách cool girl, thanh lịch hiện đại, makeup tông lạnh hoặc smoky nhẹ. Lens 1 ngày, chất liệu Silicone Hydrogel, đường kính 14.2mm, đường kính vân 13.6mm, độ cong 8.7mm, hàm lượng nước 45%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.\n\nLưu ý về quy cách đóng gói:\n• Mua từ 10 chiếc cùng độ cận: Sản phẩm sẽ được đóng trong hộp nguyên seal chính hãng như hình ảnh mô tả.\n• Mua lẻ (dưới 10 chiếc hoặc lẻ độ cho 2 mắt): Sản phẩm sẽ được đóng gói theo từng vỉ lens lẻ vô trùng, tiện lợi bảo quản và bảo đảm an toàn y tế tuyệt đối.',
-    price: 95000,
+    price: 85000,
     stock_quantity: 48,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/cat-titude/sapphire-gray-001.jpg',
     gallery_images: [
@@ -129,7 +129,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: null,
     description: 'Nâu chocolate khói quyến rũ như ánh nhìn của nàng mèo kiêu kỳ. Choco Paw có tone nâu ấm pha sắc khói, làm viền mắt sâu và cuốn hút hơn mà vẫn mềm mại, không bị gắt. Hợp với phong cách cá tính, sắc sảo, makeup nâu đất hoặc cam đào, từ đi làm đến đi chơi tối. Lens 1 ngày, chất liệu Silicone Hydrogel, đường kính 14.2mm, đường kính vân 13.6mm, độ cong 8.7mm, hàm lượng nước 45%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.\n\nLưu ý về quy cách đóng gói:\n• Mua từ 10 chiếc cùng độ cận: Sản phẩm sẽ được đóng trong hộp nguyên seal chính hãng như hình ảnh mô tả.\n• Mua lẻ (dưới 10 chiếc hoặc lẻ độ cho 2 mắt): Sản phẩm sẽ được đóng gói theo từng vỉ lens lẻ vô trùng, tiện lợi bảo quản và bảo đảm an toàn y tế tuyệt đối.',
-    price: 95000,
+    price: 85000,
     stock_quantity: 55,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/cat-titude/choco-paw-001.jpg',
     gallery_images: [
@@ -168,7 +168,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: null,
     description: 'Dịu dàng như tách trà sữa buổi sáng. Lady Beige mang tông trà sữa mềm mại cùng điểm nhấn mắt mèo tự nhiên, giúp đôi mắt sáng lên và toát vẻ thanh lịch. Lens hòa vào mắt nhẹ nhàng, phù hợp phong cách nữ tính, tối giản, makeup trong trẻo tông nude hoặc hồng đào. Lens 1 ngày, chất liệu Silicone Hydrogel, đường kính 14.2mm, đường kính vân 13.6mm, độ cong 8.7mm, hàm lượng nước 45%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.\n\nLưu ý về quy cách đóng gói:\n• Mua từ 10 chiếc cùng độ cận: Sản phẩm sẽ được đóng trong hộp nguyên seal chính hãng như hình ảnh mô tả.\n• Mua lẻ (dưới 10 chiếc hoặc lẻ độ cho 2 mắt): Sản phẩm sẽ được đóng gói theo từng vỉ lens lẻ vô trùng, tiện lợi bảo quản và bảo đảm an toàn y tế tuyệt đối.',
-    price: 95000,
+    price: 85000,
     stock_quantity: 38,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/cat-titude/lady-beige-001.jpg',
     gallery_images: [
@@ -203,7 +203,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: null,
     description: 'Đen sâu và gọn gàng, Dolly Black giúp viền mắt đậm hơn, ánh nhìn rõ nét hơn mà không cần kẻ nhiều. Lựa chọn cho bạn yêu phong cách cá tính, cổ điển hoặc muốn hiệu ứng mắt đậm tự nhiên, nhất là khi đi cùng eyeliner mảnh. Lens 1 ngày, chất liệu Silicone Hydrogel, đường kính 14.2mm, đường kính vân 13.6mm, độ cong 8.7mm, hàm lượng nước 45%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.\n\nLưu ý về quy cách đóng gói:\n• Mua từ 10 chiếc cùng độ cận: Sản phẩm sẽ được đóng trong hộp nguyên seal chính hãng như hình ảnh mô tả.\n• Mua lẻ (dưới 10 chiếc hoặc lẻ độ cho 2 mắt): Sản phẩm sẽ được đóng gói theo từng vỉ lens lẻ vô trùng, tiện lợi bảo quản và bảo đảm an toàn y tế tuyệt đối.',
-    price: 89000,
+    price: 90000,
     stock_quantity: 60,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/dolly/black-001.jpg',
     gallery_images: [
@@ -240,7 +240,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: null,
     description: 'Nâu chocolate ấm áp, đậm vừa đủ để đôi mắt trông sâu và dịu dàng. Dolly Choco là tone dễ đeo hằng ngày, hợp da vàng, da ngăm, và hợp phong cách tự nhiên, thanh lịch với makeup tông nâu đất hoặc cam. Lens 1 ngày, chất liệu Silicone Hydrogel, đường kính 14.2mm, đường kính vân 13.6mm, độ cong 8.7mm, hàm lượng nước 45%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.\n\nLưu ý về quy cách đóng gói:\n• Mua từ 10 chiếc cùng độ cận: Sản phẩm sẽ được đóng trong hộp nguyên seal chính hãng như hình ảnh mô tả.\n• Mua lẻ (dưới 10 chiếc hoặc lẻ độ cho 2 mắt): Sản phẩm sẽ được đóng gói theo từng vỉ lens lẻ vô trùng, tiện lợi bảo quản và bảo đảm an toàn y tế tuyệt đối.',
-    price: 89000,
+    price: 90000,
     stock_quantity: 52,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/dolly/choco-001.jpg',
     gallery_images: [
@@ -278,7 +278,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: null,
     description: 'Xám khói thanh lịch, Dolly Gray mang đến vẻ ngoài lạnh nhẹ và hơi bí ẩn, rất hợp với phong cách cool girl, tối giản hiện đại. Lên mắt tạo cảm giác tinh tế như mắt lai, đặc biệt đẹp với makeup tông lạnh hoặc smoky nhẹ. Lens 1 ngày, chất liệu Silicone Hydrogel, đường kính 14.2mm, đường kính vân 13.6mm, độ cong 8.7mm, hàm lượng nước 45%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.\n\nLưu ý về quy cách đóng gói:\n• Mua từ 10 chiếc cùng độ cận: Sản phẩm sẽ được đóng trong hộp nguyên seal chính hãng như hình ảnh mô tả.\n• Mua lẻ (dưới 10 chiếc hoặc lẻ độ cho 2 mắt): Sản phẩm sẽ được đóng gói theo từng vỉ lens lẻ vô trùng, tiện lợi bảo quản và bảo đảm an toàn y tế tuyệt đối.',
-    price: 89000,
+    price: 90000,
     stock_quantity: 44,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/dolly/gray-001.jpg',
     gallery_images: [
@@ -316,7 +316,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: null,
     description: 'Be nhẹ nhàng như lớp kem sữa, Dolly Beige làm đôi mắt dịu lại và trông tự nhiên như vốn đã sáng màu. Phù hợp với bạn thích nét đẹp trong trẻo, nữ tính, makeup tông nude hoặc hồng nhạt, đi học, đi làm hay hẹn cà phê đều hợp. Lens 1 ngày, chất liệu Silicone Hydrogel, đường kính 14.2mm, đường kính vân 13.6mm, độ cong 8.7mm, hàm lượng nước 45%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.\n\nLưu ý về quy cách đóng gói:\n• Mua từ 10 chiếc cùng độ cận: Sản phẩm sẽ được đóng trong hộp nguyên seal chính hãng như hình ảnh mô tả.\n• Mua lẻ (dưới 10 chiếc hoặc lẻ độ cho 2 mắt): Sản phẩm sẽ được đóng gói theo từng vỉ lens lẻ vô trùng, tiện lợi bảo quản và bảo đảm an toàn y tế tuyệt đối.',
-    price: 89000,
+    price: 90000,
     stock_quantity: 36,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/dolly/beige-001.jpg',
     gallery_images: [
@@ -354,7 +354,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: null,
     description: 'Một chút tím oải hương mơ màng cho đôi mắt nhìn như bước ra từ giấc mơ. Dolly Lavender có sắc tím nhạt nhẹ nhàng, tạo điểm nhấn lạ mắt mà vẫn dịu, hợp phong cách dreamy, Hàn Quốc, makeup hồng tím hoặc tông pastel, đặc biệt đẹp khi chụp hình. Lens 1 ngày, chất liệu Silicone Hydrogel, đường kính 14.2mm, đường kính vân 13.6mm, độ cong 8.7mm, hàm lượng nước 45%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.\n\nLưu ý về quy cách đóng gói:\n• Mua từ 10 chiếc cùng độ cận: Sản phẩm sẽ được đóng trong hộp nguyên seal chính hãng như hình ảnh mô tả.\n• Mua lẻ (dưới 10 chiếc hoặc lẻ độ cho 2 mắt): Sản phẩm sẽ được đóng gói theo từng vỉ lens lẻ vô trùng, tiện lợi bảo quản và bảo đảm an toàn y tế tuyệt đối.',
-    price: 92000,
+    price: 90000,
     stock_quantity: 26,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/dolly/lavender-001.jpg',
     gallery_images: [
@@ -391,7 +391,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: null,
     description: 'Xám nhẹ, sạch và hiện đại, One&Only Gray làm đôi mắt sáng lên mà vẫn giữ được nét tự nhiên. Hợp phong cách tối giản, thanh lịch, makeup tông trung tính hoặc tông lạnh, đeo hằng ngày đều thấy nhẹ nhàng. Đường kính 14.5mm, vân 13.5mm. Lens 1 ngày, chất liệu PC hydrogel, độ cong 8.7mm, hàm lượng nước 48%. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.\n\nLưu ý về quy cách đóng gói:\n• Mua từ 10 chiếc cùng độ cận: Sản phẩm sẽ được đóng trong hộp nguyên seal chính hãng như hình ảnh mô tả.\n• Mua lẻ (dưới 10 chiếc hoặc lẻ độ cho 2 mắt): Sản phẩm sẽ được đóng gói theo từng vỉ lens lẻ vô trùng, tiện lợi bảo quản và bảo đảm an toàn y tế tuyệt đối.',
-    price: 115000,
+    price: 85000,
     stock_quantity: 40,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/one-and-only-1d/gray-001.jpg',
     gallery_images: [
@@ -426,7 +426,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: null,
     description: 'Nâu tự nhiên, gần với màu mắt thật, One&Only Brown là lựa chọn an toàn cho người mới đeo lens hoặc thích vẻ ngoài mộc, nhẹ nhàng. Đường kính 14.5mm kết hợp vân 13.5mm cho hiệu ứng tròn trịa, tươi tắn, hợp phong cách đời thường, đi học, đi làm. Lens 1 ngày, chất liệu PC hydrogel, độ cong 8.7mm, hàm lượng nước 48%. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.\n\nLưu ý về quy cách đóng gói:\n• Mua từ 10 chiếc cùng độ cận: Sản phẩm sẽ được đóng trong hộp nguyên seal chính hãng như hình ảnh mô tả.\n• Mua lẻ (dưới 10 chiếc hoặc lẻ độ cho 2 mắt): Sản phẩm sẽ được đóng gói theo từng vỉ lens lẻ vô trùng, tiện lợi bảo quản và bảo đảm an toàn y tế tuyệt đối.',
-    price: 115000,
+    price: 85000,
     stock_quantity: 45,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/one-and-only-1d/brown-001.jpg',
     gallery_images: [
@@ -461,7 +461,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: null,
     description: 'Be sáng nhẹ nhàng, One&Only Beige làm đôi mắt trông trong và mềm hơn, vẻ ngoài thanh thoát, nữ tính. Hợp phong cách dịu dàng, tối giản, makeup tông nude, dễ phối đồ và dễ đeo hằng ngày. Lens 1 tháng (30 ngày), chất liệu PC+Silicone hydrogel, đường kính 14.2mm, đường kính vân 13.0mm, độ cong 8.7mm, hàm lượng nước 48%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.',
-    price: 149000,
+    price: 165000,
     stock_quantity: 58,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/one-and-only-1M/beige-001.jpg',
     gallery_images: [
@@ -497,7 +497,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: null,
     description: 'Nâu thuần, tự nhiên như chính màu mắt bạn, One&Only Brown là chiếc lens đeo hằng ngày thật sự. Đường kính vân 13.0mm vừa phải, cho vẻ ngoài mộc, ấm áp và dễ chịu, hợp phong cách đời thường, đi học, đi làm. Lens 1 tháng (30 ngày), chất liệu PC+Silicone hydrogel, đường kính 14.2mm, độ cong 8.7mm, hàm lượng nước 48%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.',
-    price: 149000,
+    price: 165000,
     stock_quantity: 62,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/one-and-only-1M/brown-001.jpg',
     gallery_images: [
@@ -533,7 +533,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: null,
     description: 'Xám trung tính hiện đại, One&Only Gray cho ánh nhìn sáng, gọn và thanh lịch. Hợp phong cách tối giản, công sở, makeup tông trung tính hoặc tông lạnh, đeo hằng ngày vẫn tự nhiên. Lens 1 tháng (30 ngày), chất liệu PC+Silicone hydrogel, đường kính 14.2mm, đường kính vân 13.0mm, độ cong 8.7mm, hàm lượng nước 48%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.',
-    price: 149000,
+    price: 165000,
     stock_quantity: 47,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/one-and-only-1M/gray-001.jpg',
     gallery_images: [
@@ -569,7 +569,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: null,
     description: 'Xám nhạt trong veo như sương sớm, Light Gray là phiên bản sáng nhất trong gam xám của One&Only, cho đôi mắt nhìn trong và nhẹ. Hợp phong cách trong trẻo, sáng sủa, makeup tông pastel hoặc nude, rất đẹp với da sáng. Lens 1 tháng (30 ngày), chất liệu PC+Silicone hydrogel, đường kính 14.2mm, đường kính vân 13.0mm, độ cong 8.7mm, hàm lượng nước 48%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.',
-    price: 149000,
+    price: 165000,
     stock_quantity: 34,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/one-and-only-1M/light-gray-001.jpg',
     gallery_images: [
@@ -605,7 +605,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: null,
     description: 'Xanh olive trầm và ấm, One&Only Olive mang vẻ lạ mắt nhưng vẫn kín đáo, như màu của lá ô liu dưới nắng. Hợp phong cách cá tính, vintage, makeup tông đất hoặc nâu ấm, hợp với bạn thích khác biệt mà vẫn tự nhiên. Lens 1 tháng (30 ngày), chất liệu PC+Silicone hydrogel, đường kính 14.2mm, đường kính vân 13.0mm, độ cong 8.7mm, hàm lượng nước 48%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.',
-    price: 155000,
+    price: 165000,
     stock_quantity: 39,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/one-and-only-1M/olive-001.jpg',
     gallery_images: [
@@ -641,7 +641,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: 2,
     description: 'Nâu dịu dàng như mối tình đầu, First Love Brown đem lại đôi mắt trong, mềm và rất tự nhiên. Đường kính vân 12.5mm nhỏ gọn, cho hiệu ứng mộc và nhẹ nhàng, hợp phong cách trong trẻo, nữ sinh, đời thường. Lens 1 tháng (30 ngày), hộp 2 lens, chất liệu Hydrogel, đường kính 14.2mm, độ cong 8.6mm, hàm lượng nước 43%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.',
-    price: 139000,
+    price: 165000,
     stock_quantity: 48,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/first-love/brown-001.jpg',
     gallery_images: [
@@ -678,7 +678,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: null,
     description: 'Xám nhẹ nhàng như làn sương sớm, First Love Gray đem lại đôi mắt dịu mà hơi lạ, nhẹ như đang mơ. Đường kính vân 12.5mm giữ nét tự nhiên, hợp phong cách tinh tế, tối giản, makeup tông lạnh hoặc trung tính. Lens 1 tháng (30 ngày), chất liệu Hydrogel, đường kính 14.2mm, độ cong 8.6mm, hàm lượng nước 43%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.',
-    price: 139000,
+    price: 165000,
     stock_quantity: 42,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/first-love/gray-001.jpg',
     gallery_images: [
@@ -716,7 +716,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: null,
     description: 'Nâu mộc mạc như hạt cà phê nguyên bản, Raw Brown mang vẻ đẹp mộc, chân thật và gần gũi. Màu lens hòa vào mắt thật, tạo hiệu ứng như mắt vốn đã nâu sáng, hợp phong cách tự nhiên, vintage, makeup tông đất. Lens 1 tháng (30 ngày), chất liệu PC+Silicone hydrogel, đường kính 14.2mm, đường kính vân 13.2mm, độ cong 8.7mm, hàm lượng nước 48%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.',
-    price: 159000,
+    price: 165000,
     stock_quantity: 36,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/bean/raw-brown-001.jpg',
     gallery_images: [
@@ -754,7 +754,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: 2,
     description: 'Nâu vừa vặn, không quá đậm cũng không quá nhạt, Medium Brown là lựa chọn dễ đeo nhất trong bộ sưu tập Bean. Cho đôi mắt vẻ tròn, rõ nét và rất tự nhiên, hợp mọi phong cách từ tối giản đến nữ tính, đặc biệt phù hợp người mới bắt đầu. Lens 1 tháng (30 ngày), hộp 2 lens, chất liệu PC+Silicone hydrogel, đường kính 14.2mm, đường kính vân 13.2mm, độ cong 8.7mm, hàm lượng nước 48%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.',
-    price: 159000,
+    price: 165000,
     stock_quantity: 35,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/bean/medium-brown-001.jpg',
     gallery_images: [
@@ -792,7 +792,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: null,
     description: 'Nâu đậm đà như một shot espresso, Short Brown cho đôi mắt sâu, rõ nét và có chiều sâu hơn. Hợp phong cách cá tính, trưởng thành, đi cùng makeup nâu đỏ hoặc smoky nhẹ, rất hợp khi đi làm hoặc dự tiệc. Lens 1 tháng (30 ngày), chất liệu PC+Silicone hydrogel, đường kính 14.2mm, đường kính vân 13.2mm, độ cong 8.7mm, hàm lượng nước 48%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.',
-    price: 159000,
+    price: 165000,
     stock_quantity: 28,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/bean/short-brown-001.jpg',
     gallery_images: [
@@ -830,7 +830,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: null,
     description: 'Nâu lạnh như ly cà phê cold brew, Bean Cold Brown mang tông nâu nhạt pha chút khói, nhìn tự nhiên, trong và hiện đại. Hợp phong cách tối giản, thanh lịch, makeup tông trung tính, dùng hằng ngày rất dễ phối. Lens 1 tháng (30 ngày), chất liệu PC+Silicone hydrogel, đường kính 14.2mm, đường kính vân 13.2mm, độ cong 8.7mm, hàm lượng nước 48%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.',
-    price: 159000,
+    price: 165000,
     stock_quantity: 25,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/bean/cold-brown-001.jpg',
     gallery_images: [
@@ -868,7 +868,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: null,
     description: 'Nâu ấm dịu như ly cà phê phin nhỏ giọt, Drip Brown tạo ánh nhìn sâu và nhẹ nhàng, nhìn như mắt nâu tự nhiên. Hợp phong cách ấm áp, thân thiện, đi với makeup nâu cam hoặc hồng đất, đeo đi làm, đi học hay đi chơi đều ổn. Lens 1 tháng (30 ngày), chất liệu PC+Silicone hydrogel, đường kính 14.2mm, đường kính vân 13.2mm, độ cong 8.7mm, hàm lượng nước 48%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.',
-    price: 159000,
+    price: 165000,
     stock_quantity: 32,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/bean/drip-brownn-001.jpg',
     gallery_images: [
@@ -906,7 +906,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: null,
     description: 'Đen bí ẩn, Secretive Black làm viền mắt đậm và sâu, mang ánh nhìn cuốn hút khó rời. Hợp phong cách cá tính, quyến rũ, makeup smoky hoặc eyeliner sắc nét, đặc biệt đẹp khi đi tiệc hoặc chụp hình. Lens 1 tháng (30 ngày), chất liệu PC+Silicone hydrogel, đường kính 14.2mm, đường kính vân 13.0mm, độ cong 8.7mm, hàm lượng nước 48%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.',
-    price: 169000,
+    price: 165000,
     stock_quantity: 45,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/secretive/black-001.jpg',
     gallery_images: [
@@ -941,7 +941,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: null,
     description: 'Nâu ấm kín đáo, Secretive Brown cho đôi mắt sâu và tự nhiên, nhẹ nhàng mà vẫn có điểm nhấn. Hợp phong cách thanh lịch, trưởng thành, dễ phối với makeup tông đất hoặc cam nâu, đeo từ công sở tới buổi tối. Lens 1 tháng (30 ngày), chất liệu PC+Silicone hydrogel, đường kính 14.2mm, đường kính vân 13.0mm, độ cong 8.7mm, hàm lượng nước 48%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.',
-    price: 169000,
+    price: 165000,
     stock_quantity: 50,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/secretive/brown-001.jpg',
     gallery_images: [
@@ -976,7 +976,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: null,
     description: 'Xám khói bí ẩn, Secretive Gray mang đến ánh nhìn lạnh nhẹ, sang và có chiều sâu. Hợp phong cách cool girl, tối giản hiện đại, đi cùng makeup tông lạnh, rất nổi bật dưới ánh sáng. Lens 1 tháng (30 ngày), chất liệu PC+Silicone hydrogel, đường kính 14.2mm, đường kính vân 13.0mm, độ cong 8.7mm, hàm lượng nước 48%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.',
-    price: 169000,
+    price: 165000,
     stock_quantity: 40,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/secretive/gray-001.jpg',
     gallery_images: [
@@ -1011,7 +1011,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: null,
     description: 'Xanh olive bí ẩn, Secretive Olive mang sắc xanh rêu trầm, vừa lạ vừa tinh tế. Hợp phong cách cá tính, vintage hoặc muốn tạo nét riêng, đặc biệt đẹp với makeup tông đất, nâu ấm hoặc cam gạch. Lens 1 tháng (30 ngày), chất liệu PC+Silicone hydrogel, đường kính 14.2mm, đường kính vân 13.0mm, độ cong 8.7mm, hàm lượng nước 48%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.',
-    price: 169000,
+    price: 165000,
     stock_quantity: 30,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/secretive/olive-001.jpg',
     gallery_images: [
@@ -1046,7 +1046,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: 10,
     description: 'Hồng baby ngọt ngào như kẹo bông, Stay Pretty Baby Pink cho đôi mắt vẻ trong veo, đáng yêu và hơi lấp lánh nữ tính. Hợp phong cách ngọt ngào, dễ thương, makeup hồng đào hoặc blush nhẹ, đặc biệt đẹp khi đi chơi và chụp ảnh. Lens 1 ngày, hộp 10 lens, chất liệu MPC+HEMA, đường kính 14.2mm, đường kính vân 13.3mm, độ cong 8.6mm, hàm lượng nước 40%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.\n\nLưu ý về quy cách đóng gói:\n• Mua từ 10 chiếc cùng độ cận: Sản phẩm sẽ được đóng trong hộp nguyên seal chính hãng như hình ảnh mô tả.\n• Mua lẻ (dưới 10 chiếc hoặc lẻ độ cho 2 mắt): Sản phẩm sẽ được đóng gói theo từng vỉ lens lẻ vô trùng, tiện lợi bảo quản và bảo đảm an toàn y tế tuyệt đối.',
-    price: 125000,
+    price: 135000,
     stock_quantity: 35,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/stay-pretty/baby-pink-001.jpg',
     gallery_images: [
@@ -1084,7 +1084,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: 10,
     description: 'Đen long lanh như ánh nước, Teary Black mang đến ánh mắt ướt, cuốn hút và có chiều sâu. Hiệu ứng mắt to tròn tự nhiên, hợp phong cách quyến rũ, nữ tính hoặc muốn ánh nhìn đằm thắm, đặc biệt đẹp với eyeliner mảnh và hàng mi cong. Lens 1 ngày, hộp 10 lens, chất liệu MPC+HEMA, đường kính 14.2mm, đường kính vân 13.3mm, độ cong 8.6mm, hàm lượng nước 40%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.\n\nLưu ý về quy cách đóng gói:\n• Mua từ 10 chiếc cùng độ cận: Sản phẩm sẽ được đóng trong hộp nguyên seal chính hãng như hình ảnh mô tả.\n• Mua lẻ (dưới 10 chiếc hoặc lẻ độ cho 2 mắt): Sản phẩm sẽ được đóng gói theo từng vỉ lens lẻ vô trùng, tiện lợi bảo quản và bảo đảm an toàn y tế tuyệt đối.',
-    price: 125000,
+    price: 135000,
     stock_quantity: 40,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/stay-pretty/teary-black-001.jpg',
     gallery_images: [
@@ -1122,7 +1122,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: 10,
     description: 'Be ngọt như kem sữa, Sweet Beige làm mắt dịu và sáng nhẹ, tạo vẻ ngoài tự nhiên và nữ tính. Dễ phối với mọi kiểu trang điểm, hợp phong cách dịu dàng, thanh lịch, đi làm, đi học hay hẹn hò đều hợp. Lens 1 ngày, hộp 10 lens, chất liệu MPC+HEMA, đường kính 14.2mm, đường kính vân 13.3mm, độ cong 8.6mm, hàm lượng nước 40%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.\n\nLưu ý về quy cách đóng gói:\n• Mua từ 10 chiếc cùng độ cận: Sản phẩm sẽ được đóng trong hộp nguyên seal chính hãng như hình ảnh mô tả.\n• Mua lẻ (dưới 10 chiếc hoặc lẻ độ cho 2 mắt): Sản phẩm sẽ được đóng gói theo từng vỉ lens lẻ vô trùng, tiện lợi bảo quản và bảo đảm an toàn y tế tuyệt đối.',
-    price: 125000,
+    price: 135000,
     stock_quantity: 38,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/stay-pretty/sweet-beige-001.jpg',
     gallery_images: [
@@ -1160,7 +1160,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: null,
     quantity_lenses: 10,
     description: 'Xanh lá may mắn, tươi mà không quá chói, Lucky Green mang đến đôi mắt sáng, lạ và đầy cá tính. Sắc xanh olive dịu giúp tổng thể trông sang và nổi bật, hợp phong cách cá tính, trẻ trung, đi cùng makeup nâu đất hoặc tông đất ấm. Lens 1 ngày, hộp 10 lens, chất liệu MPC+HEMA, đường kính 14.2mm, đường kính vân 13.3mm, độ cong 8.6mm, hàm lượng nước 40%, có chống UV. Vui lòng kiểm tra thông số và độ phù hợp với mắt trước khi lựa chọn.\n\nLưu ý về quy cách đóng gói:\n• Mua từ 10 chiếc cùng độ cận: Sản phẩm sẽ được đóng trong hộp nguyên seal chính hãng như hình ảnh mô tả.\n• Mua lẻ (dưới 10 chiếc hoặc lẻ độ cho 2 mắt): Sản phẩm sẽ được đóng gói theo từng vỉ lens lẻ vô trùng, tiện lợi bảo quản và bảo đảm an toàn y tế tuyệt đối.',
-    price: 125000,
+    price: 135000,
     stock_quantity: 25,
     image_url: 'https://redobljqvbrouykjrcdo.supabase.co/storage/v1/object/public/product-images/products/stay-pretty/lucky-green-001.jpg',
     gallery_images: [

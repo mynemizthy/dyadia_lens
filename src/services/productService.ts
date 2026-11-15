@@ -7,10 +7,10 @@ import { Product, ProductFilter, ProductSort } from '../types/product.ts';
 import { INITIAL_PRODUCTS } from '../lib/initialProducts.ts';
 import { supabase } from '../lib/supabase.ts';
 
-const PRODUCTS_STORAGE_KEY = 'dyadia_products_data_v4';
+const PRODUCTS_STORAGE_KEY = 'dyadia_products_data_v5';
 
 let lastSupabaseError: string | null = null;
-let currentDataSource: 'supabase' | 'localStorage' = 'localStorage';
+let currentDataSource: 'supabase' | 'localStorage' = 'supabase';
 
 function getStoredProducts(): Product[] {
   try {
@@ -46,47 +46,47 @@ export const productService = {
 
   /**
    * Get all products with optional filters and sorting
-   * Connects via API or directly to Supabase public.products
+   * Queries Supabase public.products directly for real-time prices & stock
    */
   async getProducts(filters?: ProductFilter, sort?: ProductSort): Promise<Product[]> {
     let products: Product[] = [];
 
-    // 1. Try API endpoint first
+    // 1. Query Supabase directly for 100% real-time data & exact prices
     try {
-      const response = await fetch('/api/products');
-      const contentType = response.headers.get('content-type') || '';
-      if (response.ok && contentType.includes('application/json')) {
-        const json = await response.json();
-        if (json.success && Array.isArray(json.data) && json.data.length > 0) {
-          products = json.data as Product[];
-          currentDataSource = 'supabase';
-          lastSupabaseError = null;
-          saveStoredProducts(products);
-        }
+      const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .order('sku', { ascending: true });
+
+      if (!error && data && data.length > 0) {
+        products = data as Product[];
+        currentDataSource = 'supabase';
+        lastSupabaseError = null;
+        saveStoredProducts(products);
+      } else if (error) {
+        lastSupabaseError = error.message;
       }
-    } catch {
-      // ignore and fallback
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Lỗi kết nối Supabase';
+      lastSupabaseError = msg;
     }
 
-    // 2. If API didn't return products, query Supabase directly
+    // 2. Try API endpoint fallback if Supabase direct had no data
     if (products.length === 0) {
       try {
-        const { data, error } = await supabase
-          .from('products')
-          .select('*')
-          .order('sku', { ascending: true });
-
-        if (!error && data && data.length > 0) {
-          products = data as Product[];
-          currentDataSource = 'supabase';
-          lastSupabaseError = null;
-          saveStoredProducts(products);
-        } else if (error) {
-          lastSupabaseError = error.message;
+        const response = await fetch('/api/products');
+        const contentType = response.headers.get('content-type') || '';
+        if (response.ok && contentType.includes('application/json')) {
+          const json = await response.json();
+          if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+            products = json.data as Product[];
+            currentDataSource = 'supabase';
+            lastSupabaseError = null;
+            saveStoredProducts(products);
+          }
         }
-      } catch (err: unknown) {
-        const msg = err instanceof Error ? err.message : 'Lỗi kết nối Supabase';
-        lastSupabaseError = msg;
+      } catch {
+        // ignore and fallback
       }
     }
 

@@ -197,16 +197,31 @@ export const productService = {
       }
 
       if (data) {
-        // Query variants
+        // Query variants with correct column name prescription_power
         const { data: variants } = await supabase
           .from('product_variants')
           .select('*')
           .eq('product_id', data.id)
-          .order('power', { ascending: false });
+          .order('prescription_power', { ascending: false });
+
+        const isContactLens = !data.product_type || data.product_type === 'contact_lens';
+        const defaultPowers = [
+          '0.00', '-0.50', '-1.00', '-1.25', '-1.50', '-1.75',
+          '-2.00', '-2.25', '-2.50', '-2.75', '-3.00', '-3.25',
+          '-3.50', '-3.75', '-4.00', '-4.50', '-5.00', '-5.50',
+          '-6.00', '-6.50', '-7.00', '-7.50', '-8.00'
+        ];
+
+        const powerOptions = (variants && variants.length > 0)
+          ? variants.map((v: any) => v.prescription_power)
+          : (data.prescription_power_options && data.prescription_power_options.length > 0)
+            ? data.prescription_power_options
+            : (isContactLens ? defaultPowers : []);
 
         return {
           ...data,
-          prescription_power_options: variants || data.prescription_power_options || [],
+          variants: variants || [],
+          prescription_power_options: powerOptions,
         } as Product;
       }
     } catch {
@@ -224,6 +239,17 @@ export const productService = {
         const pSlug = normalizeSlug(p.slug || '');
         return pSlug.length > 0 && (pSlug === cleanSlug || pSlug.includes(cleanSlug) || cleanSlug.includes(pSlug));
       });
+    }
+    if (found) {
+      const isContactLens = !found.product_type || found.product_type === 'contact_lens';
+      if (isContactLens && (!found.prescription_power_options || found.prescription_power_options.length === 0)) {
+        found.prescription_power_options = [
+          '0.00', '-0.50', '-1.00', '-1.25', '-1.50', '-1.75',
+          '-2.00', '-2.25', '-2.50', '-2.75', '-3.00', '-3.25',
+          '-3.50', '-3.75', '-4.00', '-4.50', '-5.00', '-5.50',
+          '-6.00', '-6.50', '-7.00', '-7.50', '-8.00'
+        ];
+      }
     }
     return found || null;
   },

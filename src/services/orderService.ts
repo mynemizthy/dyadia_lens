@@ -7,6 +7,30 @@ import { Order, OrderStatus, ProductReview } from '../types/order.ts';
 import { supabase } from '../lib/supabase.ts';
 import { generateOrderCode } from '../lib/utils.ts';
 
+const ORDERS_STORAGE_KEY = 'dyadia_orders_local_cache_v3';
+
+function getStoredOrders(): Order[] {
+  try {
+    const raw = localStorage.getItem(ORDERS_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveStoredOrder(order: Order) {
+  try {
+    const orders = getStoredOrders();
+    const idx = orders.findIndex((o) => o.orderCode === order.orderCode);
+    if (idx >= 0) {
+      orders[idx] = order;
+    } else {
+      orders.unshift(order);
+    }
+    localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(orders));
+  } catch {}
+}
+
 export const orderService = {
   /**
    * Fetch customer orders from Supabase via server-side protected route or direct Supabase query
@@ -54,7 +78,7 @@ export const orderService = {
         .order('created_at', { ascending: false });
 
       if (!error && Array.isArray(data)) {
-        return data.map((raw: any) => ({
+        const supaOrders = data.map((raw: any) => ({
           id: raw.id || raw.order_code,
           orderCode: raw.order_code,
           customer: raw.customer || {},
@@ -70,12 +94,20 @@ export const orderService = {
           createdAt: raw.created_at,
           updatedAt: raw.updated_at,
         }));
+        const stored = getStoredOrders();
+        const merged = [...supaOrders];
+        for (const so of stored) {
+          if (!merged.some((o) => o.orderCode === so.orderCode)) {
+            merged.push(so);
+          }
+        }
+        return merged;
       }
     } catch (err) {
       console.error('Error fetching user orders from Supabase:', err);
     }
 
-    return [];
+    return getStoredOrders();
   },
 
   /**
@@ -181,7 +213,7 @@ export const orderService = {
     }
 
     const raw = data || newOrderRow;
-    return {
+    const orderObj: Order = {
       id: raw.id || raw.order_code,
       orderCode: raw.order_code,
       customer: raw.customer,
@@ -196,6 +228,8 @@ export const orderService = {
       createdAt: raw.created_at,
       updatedAt: raw.updated_at,
     };
+    saveStoredOrder(orderObj);
+    return orderObj;
   },
 
   /**
@@ -209,7 +243,7 @@ export const orderService = {
         const json = await response.json();
         if (json.success && json.data) {
           const raw = json.data;
-          return {
+          const orderObj: Order = {
             id: raw.id || raw.order_code,
             orderCode: raw.order_code,
             customer: raw.customer,
@@ -225,6 +259,8 @@ export const orderService = {
             createdAt: raw.created_at,
             updatedAt: raw.updated_at,
           };
+          saveStoredOrder(orderObj);
+          return orderObj;
         }
       }
     } catch {
@@ -240,7 +276,7 @@ export const orderService = {
         .maybeSingle();
 
       if (data) {
-        return {
+        const orderObj: Order = {
           id: data.id || data.order_code,
           orderCode: data.order_code,
           customer: data.customer,
@@ -256,9 +292,17 @@ export const orderService = {
           createdAt: data.created_at,
           updatedAt: data.updated_at,
         };
+        saveStoredOrder(orderObj);
+        return orderObj;
       }
     } catch {
       // ignore
+    }
+
+    // 3. Local storage fallback
+    const local = getStoredOrders().find((o) => o.orderCode === orderCode);
+    if (local) {
+      return local;
     }
 
     return null;

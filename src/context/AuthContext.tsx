@@ -241,52 +241,88 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const signUp = async ({ email, password, fullName, phone }: SignUpParams) => {
+    const trimmedEmail = email.trim().toLowerCase();
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email: email.trim(),
+      let userId: string | null = null;
+      let supaUser: User | null = null;
+
+      // 1. Create user with email_confirm: true directly in Supabase
+      const { data: createData, error: createError } = await supabase.auth.admin.createUser({
+        email: trimmedEmail,
         password,
-        options: {
-          data: {
-            full_name: fullName,
-            phone,
-          },
+        email_confirm: true,
+        user_metadata: {
+          full_name: fullName.trim(),
+          phone: phone.trim(),
         },
       });
 
-      if (error) {
-        return { error: new Error(error.message) };
+      if (createError) {
+        if (createError.message.includes('already registered') || createError.message.includes('already exists')) {
+          return { error: new Error('Địa chỉ email này đã được đăng ký. Bạn có thể đăng nhập hoặc sử dụng Quên mật khẩu.') };
+        }
+        // Fallback to standard signUp
+        const { data: standardData, error: standardError } = await supabase.auth.signUp({
+          email: trimmedEmail,
+          password,
+          options: {
+            data: { full_name: fullName.trim(), phone: phone.trim() },
+          },
+        });
+        if (standardError) {
+          return { error: new Error(standardError.message || 'Đăng ký không thành công') };
+        }
+        if (standardData.user) {
+          userId = standardData.user.id;
+          supaUser = standardData.user;
+        }
+      } else if (createData?.user) {
+        userId = createData.user.id;
+        supaUser = createData.user;
       }
 
-      if (data.user) {
-        // Upsert profile in Supabase profiles table
+      if (userId) {
+        // 2. Upsert profile in Supabase profiles table
         await supabase
           .from('profiles')
           .upsert({
-            id: data.user.id,
-            full_name: fullName,
-            phone,
+            id: userId,
+            full_name: fullName.trim(),
+            phone: phone.trim(),
             role: 'customer',
             updated_at: new Date().toISOString(),
           })
           .catch(() => {});
 
-        if (data.session) {
-          localStorage.setItem(TOKEN_KEY, data.session.access_token);
-          localStorage.setItem(USER_KEY, JSON.stringify(data.user));
-          setUser(data.user);
-          setSession(data.session);
-          setProfile({
-            id: data.user.id,
-            full_name: fullName,
-            phone,
+        // 3. Immediately sign in to establish active session
+        const { data: loginData } = await supabase.auth.signInWithPassword({
+          email: trimmedEmail,
+          password,
+        });
+
+        if (loginData?.session && loginData?.user) {
+          const s = loginData.session;
+          const u = loginData.user;
+          localStorage.setItem(TOKEN_KEY, s.access_token);
+          localStorage.setItem(USER_KEY, JSON.stringify(u));
+          const customerProfile: UserProfile = {
+            id: userId,
+            full_name: fullName.trim(),
+            phone: phone.trim(),
             role: 'customer',
-          });
+          };
+          localStorage.setItem(PROFILE_KEY, JSON.stringify(customerProfile));
+          setUser(u);
+          setSession(s);
+          setProfile(customerProfile);
+
+          return { error: null, needsEmailConfirmation: false };
         }
       }
 
       return {
         error: null,
-        needsEmailConfirmation: Boolean(data.user && !data.session),
+        needsEmailConfirmation: false,
       };
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Lỗi kết nối khi đăng ký';
